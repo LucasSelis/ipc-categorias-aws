@@ -50,6 +50,10 @@ La frontera exacta de qué se pudo verificar sin cuenta: `terraform validate` y 
 
 **18. Rango de variación más ancho que en el observatorio general (-10..100, no -5..50).** Una categoría puntual (Regulados, por un ajuste tarifario; Transporte, por un aumento de combustibles) puede saltar fuerte en un mes sin que sea un error de carga. Un rango calcado del nivel general daría falsos positivos.
 
+## App local
+
+**19. `server.address` no va en `.streamlit/config.toml`, va como bandera al correrla local.** Por defecto Streamlit escucha en todas las interfaces de red, no solo en la PC donde corre: cualquiera en la misma WiFi podría abrirla. Lo mismo que encontré en el observatorio de inflación. Acá la solución es distinta a propósito: esta app se piensa para Streamlit Community Cloud, y si `server.address = "127.0.0.1"` quedara fijo en el archivo de configuración, un servidor de despliegue podría obedecerlo y la app quedaría inaccesible para todo el mundo. Por eso la restricción va como bandera (`--server.address 127.0.0.1`) solo al correrla en una PC local, documentada en el README.
+
 ## Lo que sigue (cuando haya cuenta)
 
 `terraform plan` (para ver qué se crearía, sin aplicar nada), después `terraform apply`, generar la access key del usuario de la app a mano, correr `dbt build` una vez, y cargar los secretos en Streamlit Cloud. Todo documentado en el README.

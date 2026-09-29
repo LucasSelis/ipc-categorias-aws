@@ -1,2 +1,6 @@
+# No se restringe server.address acá a propósito: esta app se piensa para correr en
+# Streamlit Community Cloud, y un servidor de despliegue podría obedecer una restricción a
+# 127.0.0.1 y quedar inaccesible. Para probarla en una PC local, restringila con la bandera
+# --server.address 127.0.0.1 (ver README), no acá.
 [browser]
 gatherUsageStats = false

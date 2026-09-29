@@ -66,6 +66,11 @@ cd terraform && terraform init -backend=false && terraform validate
 
 # Modelos: resuelve Jinja/YAML/refs, no consulta Athena
 cd dbt && DBT_PROFILES_DIR=. OBS_BUCKET=x dbt parse
+
+# La app en el navegador: sin AWS configurado muestra el aviso de "no desplegada" (ver captura
+# arriba). --server.address 127.0.0.1 es a propósito: por defecto Streamlit escucha en toda la
+# red, no solo en esta PC (ver DECISIONES.md, punto 19).
+cd app && streamlit run IPC_por_categoria.py --server.address 127.0.0.1
 ```
 
 ## Cómo desplegarlo (cuando haya cuenta de AWS)
