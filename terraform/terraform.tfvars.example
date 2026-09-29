@@ -1,0 +1,2 @@
+# Copiá este archivo a terraform.tfvars (ese sí está en .gitignore) y completá tu mail.
+email_alertas_presupuesto = "tu-mail@ejemplo.com"

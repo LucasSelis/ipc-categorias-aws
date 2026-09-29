@@ -1,0 +1,14 @@
+name: ipc_categorias
+version: "1.0.0"
+config-version: 2
+profile: ipc_categorias
+
+model-paths: ["models"]
+test-paths: ["tests"]
+
+models:
+  ipc_categorias:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: mart_variacion_categorias
+    description: Variación mensual (%) de cada categoría del IPC, incluye núcleo/regulados/estacionales y las 9 divisiones de consumo.
+    columns:
+      - name: categoria
+        tests: [not_null]
+      - name: mes
+        tests: [not_null]
+      - name: variacion_m
+        tests: [not_null]
+  - name: mart_ranking_ultimo_mes
+    description: Ranking de las 9 divisiones de consumo por variación mensual, solo para el último mes publicado.
+    columns:
+      - name: puesto
+        tests: [not_null, unique]

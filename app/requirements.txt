@@ -1,0 +1,5 @@
+streamlit==1.64.0
+boto3==1.43.104
+pandas==3.0.6
+plotly==7.1.0
+sqlparse==0.6.0

@@ -1,0 +1,14 @@
+# Sin credenciales acá: dbt-athena las toma del entorno, igual que la AWS CLI
+# (variables AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY, o un profile de `aws configure`).
+ipc_categorias:
+  target: dev
+  outputs:
+    dev:
+      type: athena
+      s3_staging_dir: "s3://{{ env_var('OBS_BUCKET') }}/athena-results/"
+      region_name: "{{ env_var('AWS_REGION', 'us-east-1') }}"
+      database: awsdatacatalog
+      schema: "{{ env_var('OBS_GLUE_DATABASE', 'ipc_categorias') }}"
+      work_group: "{{ env_var('OBS_ATHENA_WORKGROUP', 'ipc-categorias') }}"
+      num_retries: 3
+      threads: 2

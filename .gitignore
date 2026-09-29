@@ -1,0 +1,14 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+target/
+logs/
+dbt_packages/
+dbt/.user.yml
+
+# terraform (además del .gitignore propio en terraform/, por las dudas)
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/terraform.tfvars
+terraform/build/

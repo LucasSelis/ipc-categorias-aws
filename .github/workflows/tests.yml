@@ -1,0 +1,66 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+# Permisos mínimos: el workflow solo necesita leer el código.
+permissions:
+  contents: read
+
+jobs:
+  ingesta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r ingesta/requirements-dev.txt
+      - name: Tests de ingesta (moto simula S3: no toca AWS real)
+        run: pytest -q
+        working-directory: ingesta
+
+  app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r app/requirements-dev.txt
+      - name: Tests de la app (boto3 mockeado, sin credenciales)
+        run: pytest -q
+        working-directory: app
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.16.2"
+      - name: terraform fmt (verifica formato, no escribe nada)
+        run: terraform fmt -check -recursive
+        working-directory: terraform
+      - name: terraform init (solo baja los plugins públicos, no necesita cuenta de AWS)
+        run: terraform init -backend=false -input=false
+        working-directory: terraform
+      - name: terraform validate (sintaxis y tipos, sin conectarse a AWS)
+        run: terraform validate
+        working-directory: terraform
+
+  dbt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install dbt-athena-community==1.11.1
+      - name: dbt parse (sintaxis, YAML y refs/sources; no necesita conexión a Athena)
+        run: dbt parse
+        working-directory: dbt
+        env:
+          DBT_PROFILES_DIR: ./
+          OBS_BUCKET: bucket-de-ci-no-existe

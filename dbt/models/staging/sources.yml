@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw
+    database: awsdatacatalog
+    schema: "{{ env_var('OBS_GLUE_DATABASE', 'ipc_categorias') }}"
+    tables:
+      - name: ipc_categorias
+        description: CSV crudo que sube la Lambda de ingesta, tal como lo publica el catálogo de Glue.
+        columns:
+          - name: categoria
+            tests: [not_null]
+          - name: fecha
+            tests: [not_null]
+          - name: valor
+            tests: [not_null]
